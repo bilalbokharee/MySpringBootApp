@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.devops</groupId>
-	<artifactId>assessment</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>assessment</name>
+	<artifactId>myspringbootapp</artifactId>
+	<version>1.0.0</version>
+	<name>myspringbootapp</name>
 	<description>DevOps Assessment</description>
 	<properties>
 		<java.version>22</java.version>
