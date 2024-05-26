@@ -49,7 +49,7 @@ jobs:
 
       - name: K check
         run: |
-          kubectl get deployments
+          kubectl get nodes
 
 #      - name: Deploy to EKS
 #        env:
