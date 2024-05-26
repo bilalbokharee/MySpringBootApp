@@ -49,8 +49,7 @@ jobs:
 
       - name: K check
         run: |
-          kubectl config current-context
-          kubectl config get-contexts
+          kubectl get deployments
 
 #      - name: Deploy to EKS
 #        env:
