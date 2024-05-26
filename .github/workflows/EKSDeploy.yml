@@ -34,12 +34,12 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::099199746132:role/github-oidc-provider-aws
           role-session-name: github-actions-eks-deploy
-          aws-region: ${{ secrets.GH_ACTIONS_REGION }}
+          aws-region: "us-west-2"
 
       - name: Update KubeConfig
         env:
           CLUSTER_NAME: ${{ inputs.eks_cluster_name }}
-          AWS_REGION: ${{ secrets.GH_ACTIONS_REGION }}
+          AWS_REGION: "us-west-2"
         run: aws eks update-kubeconfig --name $CLUSTER_NAME --region $AWS_REGION
 
       - name: STS GetCallerIdentity
