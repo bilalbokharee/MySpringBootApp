@@ -4,6 +4,11 @@ on:
   workflow_call:
 
     inputs:
+      jar_name:
+        description: Jar file name
+        required: true
+        type: string
+
       jar_path:
         description: Jar file path
         required: true
@@ -13,10 +18,10 @@ on:
         description: Name of ECR repo to push & pull image from
         required: false
         type: string
-        default: '22'
+        default: '21'
 
       java_distribution:
-        description: EKS cluster name to deploy to.
+        description: Java distribution name
         required: false
         type: string
         default: 'temurin'
@@ -40,10 +45,9 @@ jobs:
       - name: Build JAR
         run: |
           mvn clean package -q
-          ls -lh target
 
       - name: Upload JAR
         uses: actions/upload-artifact@v4
         with:
-          name: "myspringbootapp-2.0.0.jar"
+          name: ${{ inputs.jar_name }}
           path: ${{ inputs.jar_path }}
