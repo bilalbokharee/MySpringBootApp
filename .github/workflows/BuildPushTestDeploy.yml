@@ -34,9 +34,20 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: MVN build jar
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '22'
+
+      - name: Set up Maven
+        uses: sormuras/actions-maven@v1
+        with:
+          maven-version: '3.9.7'
+
+      - name: Build JAR
         run: |
-          ./mvnw clean package
+          mvn clean package
+          ls
 
       - name: Upload JAR
         uses: actions/upload-artifact@v3
