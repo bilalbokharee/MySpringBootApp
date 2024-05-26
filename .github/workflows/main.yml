@@ -1,4 +1,4 @@
-name: Build-Push-Test-Deploy-Caller
+name: Main Workflow
 on:
   workflow_dispatch:
 
