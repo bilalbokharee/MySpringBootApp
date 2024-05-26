@@ -5,6 +5,8 @@ jobs:
   build-push-test-deploy:
     uses: bilalbokharee/MySpringBootApp/.github/workflows/BuildPushTestDeploy.yml@develop
     with:
-      develop_mode: true # tests are skipped when set to `true`
-      deploy: false # deploy to EKS skipped when set to `false`
+      ecr_repo: "my-devops-assessment-repo"
+      eks_cluster_name: "my-devops-assessment"
+      develop_mode: true
+      deploy: false
     secrets: inherit
