@@ -1,0 +1,31 @@
+name: TerraformCheckovScan
+
+on:
+  workflow_call:
+
+    inputs:
+      terraform_directory:
+        description: Terraform Directory
+        required: true
+        type: string
+
+jobs:
+
+  terraform_checkov_scan:
+    name: Terraform Checkov Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Run Checkov action
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        env:
+          TERRAFORM_DIRECTORY: ${{ inputs.terraform_directory }}
+        with:
+          directory: ${{ env.TERRAFORM_DIRECTORY }}
+          soft_fail: true
+          download_external_modules: true
+          github_pat: ${{ secrets.GH_PAT }}

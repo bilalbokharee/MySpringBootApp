@@ -3,6 +3,12 @@ on:
   workflow_dispatch:
 
 jobs:
+  terraform-checkov-scan:
+    uses: bilalbokharee/MySpringBootApp/.github/workflows/JavaBuildJar.yml@develop
+    with:
+      terraform_directory: "terraform/"
+    secrets: inherit
+
   java-build-jar:
     uses: bilalbokharee/MySpringBootApp/.github/workflows/JavaBuildJar.yml@develop
     with:
