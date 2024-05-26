@@ -42,7 +42,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: "myspringbootapp-2.0.0.jar"
-          path: ${{ inputs.jar_path }}
+          path: "target/"
 
       - name: Build, tag, and push image to Amazon ECR
         env:
