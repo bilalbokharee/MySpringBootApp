@@ -4,7 +4,7 @@ on:
 
 jobs:
   terraform-checkov-scan:
-    uses: bilalbokharee/MySpringBootApp/.github/workflows/JavaBuildJar.yml@develop
+    uses: bilalbokharee/MySpringBootApp/.github/workflows/TerraformCheckovScan.yml@develop
     with:
       terraform_directory: "terraform/"
     secrets: inherit
