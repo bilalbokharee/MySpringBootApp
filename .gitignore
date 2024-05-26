@@ -6,6 +6,15 @@
 
 # Ignore Maven wrapper JAR file
 .mvn/wrapper/
+mvnw
+mvnw.cmd
 
 # Ignore target directory (Maven build output)
 target/
+
+# Ignore Terraform state files
+terraform.tfstate
+terraform.tfstate.backup
+
+# Ignore Terraform .terraform directory
+.terraform/

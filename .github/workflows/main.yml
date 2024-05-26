@@ -1,0 +1,26 @@
+name: Build-Push-Test-Deploy-Caller
+on:
+  workflow_dispatch:
+
+jobs:
+  java-build-jar:
+    uses: bilalbokharee/MySpringBootApp/.github/workflows/JavaBuildJar.yml@develop
+    with:
+      jar_path: "target/myspringbootapp-1.0.0.jar"
+      java_version: "22"
+    secrets: inherit
+
+  docker-build-n-push:
+    uses: bilalbokharee/MySpringBootApp/.github/workflows/DockerBuildnPush.yml@develop
+    with:
+      jar_path: "target/myspringbootapp-1.0.0.jar"
+      ecr_repo: "my-devops-assessment-repo"
+    secrets: inherit
+
+  build-push-test-deploy:
+    uses: bilalbokharee/MySpringBootApp/.github/workflows/BuildPushTestDeploy.yml@develop
+    with:
+      eks_cluster_name: "my-devops-assessment"
+      develop_mode: true
+      deploy: false
+    secrets: inherit
