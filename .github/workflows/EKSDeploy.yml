@@ -18,7 +18,8 @@ on:
           description: When set to false, EKS deployment is not done
           required: true
           type: boolean
-
+permissions:
+  id-token: write
 jobs:
   eks-deploy:
     if: ${{ inputs.develop_mode == false }}
