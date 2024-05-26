@@ -1,0 +1,56 @@
+name: EKS Deploy
+
+on:
+  workflow_call:
+
+      inputs:
+        eks_cluster_name:
+          description: EKS cluster name to deploy to.
+          required: true
+          type: string
+
+        develop_mode:
+          description: When set to true, tests are not run.
+          required: true
+          type: boolean
+
+        deploy:
+          description: When set to false, EKS deployment is not done
+          required: true
+          type: boolean
+
+jobs:
+  eks-deploy:
+    if: ${{ inputs.develop_mode == false }}
+    name: CI tests
+    runs-on: ubuntu-latest
+
+    steps:
+#      - name: Check out code
+#        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::099199746132:role/github-oidc-provider-aws
+          role-session-name: github-actions-eks-deploy
+          aws-region: ${{ secrets.GH_ACTIONS_REGION }}
+
+      - name: Update KubeConfig
+        env:
+          CLUSTER_NAME: ${{ inputs.eks_cluster_name }}
+          AWS_REGION: ${{ secrets.GH_ACTIONS_REGION }}
+        run: aws eks update-kubeconfig --name $CLUSTER_NAME --region $AWS_REGION
+
+      - name: STS GetCallerIdentity
+        run: |
+          aws sts get-caller-identity
+
+#      - name: Deploy to EKS
+#        env:
+#          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+#          IMAGE_TAG: ${{ steps.commit.outputs.short }}
+#        run: |
+#          sed -i.bak "s|DOCKER_IMAGE|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" manifests/hello-app-deployment.yaml && \
+#          kubectl apply -f manifests/hello-app-deployment.yaml
+#          kubectl apply -f manifests/hello-app-service.yaml
