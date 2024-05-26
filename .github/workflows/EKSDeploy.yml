@@ -9,13 +9,13 @@ on:
           required: true
           type: string
 
+        ecr_repo:
+          description: Name of ECR repo to push & pull image from
+          required: true
+          type: string
+
         develop_mode:
           description: When set to true, tests are not run.
-          required: true
-          type: boolean
-
-        deploy:
-          description: When set to false, EKS deployment is not done
           required: true
           type: boolean
 
@@ -57,8 +57,9 @@ jobs:
       - name: Deploy to EKS
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPO: ${{ inputs.ecr_repo }}
           IMAGE_TAG: ${{ steps.commit.outputs.short }}
         run: |
-          sed -i "s|image: .*|image: ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}|" k8s-manifests/deployment.yml && \
+          sed -i "s|image: .*|image: ${ECR_REGISTRY}/${ECR_REPO}:${IMAGE_TAG}|" k8s-manifests/deployment.yml && \
           kubectl apply -f k8s-manifests/deployment.yml
           kubectl apply -f k8s-manifests/service.yml

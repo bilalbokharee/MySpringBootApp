@@ -28,5 +28,5 @@ jobs:
       contents: read
     with:
       eks_cluster_name: "my-devops-assessment"
+      ecr_repo: "my-devops-assessment-repo"
       develop_mode: false
-      deploy: true
