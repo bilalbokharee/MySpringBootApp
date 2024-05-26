@@ -23,6 +23,9 @@ jobs:
   eks-deploy:
     uses: bilalbokharee/MySpringBootApp/.github/workflows/EKSDeploy.yml@develop
     needs: [docker-build-n-push]
+    permissions:
+      id-token: write
+      contents: read
     with:
       eks_cluster_name: "my-devops-assessment"
       develop_mode: false
