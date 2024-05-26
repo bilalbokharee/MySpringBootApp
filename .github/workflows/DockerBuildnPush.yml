@@ -60,7 +60,6 @@ jobs:
           docker build \
             --build-arg JAR_FILE=$JAR_PATH/$JAR_NAME \
             -t $ECR_REGISTRY/$ECR_REPO:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPO:$IMAGE_TAG
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.20.0
