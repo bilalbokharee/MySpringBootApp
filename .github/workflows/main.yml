@@ -12,6 +12,7 @@ jobs:
 
   docker-build-n-push:
     uses: bilalbokharee/MySpringBootApp/.github/workflows/DockerBuildnPush.yml@develop
+    needs: java-build-jar
     with:
       jar_path: "target/myspringbootapp-1.0.0.jar"
       ecr_repo: "my-devops-assessment-repo"
