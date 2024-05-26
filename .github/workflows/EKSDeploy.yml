@@ -18,17 +18,23 @@ on:
           description: When set to false, EKS deployment is not done
           required: true
           type: boolean
+
 permissions:
   id-token: write
+
 jobs:
   eks-deploy:
     if: ${{ inputs.develop_mode == false }}
-    name: CI tests
+    name: EKS Deploy
     runs-on: ubuntu-latest
 
     steps:
-#      - name: Check out code
-#        uses: actions/checkout@v2
+      - name: Set short git commit SHA
+        id: commit
+        uses: prompt/actions-commit-hash@v2
+
+      - name: Check out code
+        uses: actions/checkout@v2
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
@@ -47,15 +53,11 @@ jobs:
         run: |
           aws sts get-caller-identity
 
-      - name: K check
+      - name: Deploy to EKS
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ steps.commit.outputs.short }}
         run: |
-          kubectl get deployments -A
-
-#      - name: Deploy to EKS
-#        env:
-#          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-#          IMAGE_TAG: ${{ steps.commit.outputs.short }}
-#        run: |
-#          sed -i.bak "s|DOCKER_IMAGE|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" manifests/hello-app-deployment.yaml && \
-#          kubectl apply -f manifests/hello-app-deployment.yaml
-#          kubectl apply -f manifests/hello-app-service.yaml
+          sed -i "s|image: .*|image: ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}|" manifests/deployment.yaml && \
+          kubectl apply -f k8s-manifests/deployment.yml
+          kubectl apply -f k8s-manifests/service.yml

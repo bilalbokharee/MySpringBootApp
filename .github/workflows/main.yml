@@ -19,12 +19,9 @@ jobs:
     secrets: inherit
 
   eks-deploy:
-    permissions:
-      id-token: write
     uses: bilalbokharee/MySpringBootApp/.github/workflows/EKSDeploy.yml@develop
     needs: [docker-build-n-push]
     with:
       eks_cluster_name: "my-devops-assessment"
       develop_mode: false
       deploy: true
-    secrets: inherit
