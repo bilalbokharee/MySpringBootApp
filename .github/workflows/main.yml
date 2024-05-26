@@ -3,30 +3,29 @@ on:
   workflow_dispatch:
 
 jobs:
-  java-build-jar:
-    uses: bilalbokharee/MySpringBootApp/.github/workflows/JavaBuildJar.yml@develop
-    with:
-      jar_name: "myspringbootapp-2.0.0.jar"
-      jar_path: "target"
-      java_version: "21"
-    secrets: inherit
-
-  docker-build-n-push:
-    uses: bilalbokharee/MySpringBootApp/.github/workflows/DockerBuildnPush.yml@develop
-    needs: java-build-jar
-    with:
-      jar_name: "myspringbootapp-2.0.0.jar"
-      jar_path: "target"
-      ecr_repo: "my-devops-assessment-repo"
-    secrets: inherit
+#  java-build-jar:
+#    uses: bilalbokharee/MySpringBootApp/.github/workflows/JavaBuildJar.yml@develop
+#    with:
+#      jar_name: "myspringbootapp-2.0.0.jar"
+#      jar_path: "target"
+#      java_version: "21"
+#    secrets: inherit
+#
+#  docker-build-n-push:
+#    uses: bilalbokharee/MySpringBootApp/.github/workflows/DockerBuildnPush.yml@develop
+#    needs: java-build-jar
+#    with:
+#      jar_name: "myspringbootapp-2.0.0.jar"
+#      jar_path: "target"
+#      ecr_repo: "my-devops-assessment-repo"
+#    secrets: inherit
 
   eks-deploy:
     permissions:
       id-token: write
     uses: bilalbokharee/MySpringBootApp/.github/workflows/EKSDeploy.yml@develop
-    needs: [docker-build-n-push]
+#    needs: [docker-build-n-push]
     with:
       eks_cluster_name: "my-devops-assessment"
       develop_mode: false
       deploy: true
-    secrets: inherit
