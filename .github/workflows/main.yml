@@ -20,7 +20,6 @@ jobs:
   build-push-test-deploy:
     uses: bilalbokharee/MySpringBootApp/.github/workflows/BuildPushTestDeploy.yml@develop
     with:
-      ecr_repo: "my-devops-assessment-repo"
       eks_cluster_name: "my-devops-assessment"
       develop_mode: true
       deploy: false
