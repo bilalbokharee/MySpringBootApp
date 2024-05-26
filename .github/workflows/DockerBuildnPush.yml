@@ -68,7 +68,7 @@ jobs:
           ECR_REPO: ${{ inputs.ecr_repo }}
           IMAGE_TAG: ${{ steps.commit.outputs.short }}
         with:
-          image-ref: $ECR_REGISTRY/$ECR_REPO:$IMAGE_TAG
+          image-ref: {{ env.ECR_REGISTRY }}/${{ env.ECR_REPO }}:${{ env.IMAGE_TAG }}
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
