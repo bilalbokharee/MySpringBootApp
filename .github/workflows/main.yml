@@ -7,7 +7,7 @@ jobs:
     uses: bilalbokharee/MySpringBootApp/.github/workflows/JavaBuildJar.yml@develop
     with:
       jar_path: "target/myspringbootapp-2.0.0.jar"
-      java_version: "22"
+      java_version: "21"
     secrets: inherit
 
   docker-build-n-push:
