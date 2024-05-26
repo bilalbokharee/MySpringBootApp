@@ -26,8 +26,19 @@ on:
 
 jobs:
 
-  buildnpush:
-    name: Build Spring Boot App
+  buildjavaapp:
+    name: Build Spring boot application
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: MVN build
+        run: |
+          ./mvnw clean package
+          ls
+
+  buildimagenpush:
+    name: Build Docker Image
+    needs: buildjavaapp
     runs-on: ubuntu-latest
 
     steps:
