@@ -6,7 +6,8 @@ jobs:
   java-build-jar:
     uses: bilalbokharee/MySpringBootApp/.github/workflows/JavaBuildJar.yml@develop
     with:
-      jar_path: "target/myspringbootapp-2.0.0.jar"
+      jar_name: "myspringbootapp-2.0.0.jar"
+      jar_path: "target"
       java_version: "21"
     secrets: inherit
 
@@ -14,7 +15,8 @@ jobs:
     uses: bilalbokharee/MySpringBootApp/.github/workflows/DockerBuildnPush.yml@develop
     needs: java-build-jar
     with:
-      jar_path: "target/myspringbootapp-2.0.0.jar"
+      jar_name: "myspringbootapp-2.0.0.jar"
+      jar_path: "target"
       ecr_repo: "my-devops-assessment-repo"
     secrets: inherit
 
