@@ -18,6 +18,7 @@ module "allow_eks_access_iam_policy" {
     ]
   })
 }
+
 module "eks_admins_iam_role" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
   version = "5.39.1"
@@ -32,6 +33,7 @@ module "eks_admins_iam_role" {
     "arn:aws:iam::${module.vpc.vpc_owner_id}:root"
   ]
 }
+
 module "allow_assume_eks_admins_iam_policy" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
   version = "5.39.1"

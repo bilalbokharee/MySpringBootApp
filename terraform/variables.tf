@@ -24,19 +24,6 @@ variable "public_subnets" {
   default     = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
 }
 
-# Subnet tags
-variable "private_subnet_tags" {
-  description = "A map of tags to add to private subnets"
-  type        = map(string)
-  default     = {}
-}
-
-variable "public_subnet_tags" {
-  description = "A map of tags to add to public subnets"
-  type        = map(string)
-  default     = {}
-}
-
 # EKS cluster configuration
 variable "cluster_name" {
   description = "Name of the EKS cluster"
