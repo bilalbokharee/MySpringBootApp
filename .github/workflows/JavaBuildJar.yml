@@ -43,7 +43,7 @@ jobs:
           ls -lh target
 
       - name: Upload JAR
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: "myspringbootapp-2.0.0.jar"
           path: ${{ inputs.jar_path }}
