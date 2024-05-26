@@ -42,14 +42,13 @@ jobs:
 
       - name: Build JAR
         run: |
-          mvn clean package
-          ls
+          mvn clean package -q
 
       - name: Upload JAR
         uses: actions/upload-artifact@v3
         with:
           name: myspringbootapp
-          path: target/myspringbootapp-1.0.0.jar
+          path: target/
 
   buildimagenpush:
     name: Build Docker Image
