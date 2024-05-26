@@ -40,7 +40,7 @@ jobs:
       - name: Build JAR
         run: |
           mvn clean package -q
-          ls target
+          ls -lh target
 
       - name: Upload JAR
         uses: actions/upload-artifact@v3
