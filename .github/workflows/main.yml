@@ -18,11 +18,13 @@ jobs:
       ecr_repo: "my-devops-assessment-repo"
     secrets: inherit
 
-  build-push-test-deploy:
-    uses: bilalbokharee/MySpringBootApp/.github/workflows/BuildPushTestDeploy.yml@develop
-    needs: [java-build-jar, docker-build-n-push]
+  eks-deploy:
+    permissions:
+      id-token: write
+    uses: bilalbokharee/MySpringBootApp/.github/workflows/EKSDeploy.yml@develop
+    needs: [docker-build-n-push]
     with:
       eks_cluster_name: "my-devops-assessment"
-      develop_mode: true
-      deploy: false
+      develop_mode: false
+      deploy: true
     secrets: inherit
