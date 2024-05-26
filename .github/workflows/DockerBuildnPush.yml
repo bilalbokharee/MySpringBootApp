@@ -74,6 +74,15 @@ jobs:
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
 
+      - name: Run Checkov action
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: terraform/
+          soft_fail: true
+          download_external_modules: true
+          github_pat: ${{ secrets.GH_PAT }}
+
       - name: Docker Build & tag
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
