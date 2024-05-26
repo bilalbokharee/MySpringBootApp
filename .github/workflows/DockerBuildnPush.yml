@@ -51,6 +51,7 @@ jobs:
           JAR_FILE: ${{ inputs.jar_path }}
           IMAGE_TAG: ${{ steps.commit.outputs.short }}
         run: |
+          pwd
           ls -lh target
           docker build \
             --build-arg JAR_FILE=$JAR_FILE \
