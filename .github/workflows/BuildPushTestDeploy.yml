@@ -57,7 +57,7 @@ jobs:
           docker push $ECR_REGISTRY/${{ inputs.ecr_repo }}:$IMAGE_TAG
 
   test:
-    if: ${{ input.develop_mode == false }}
+    if: ${{ inputs.develop_mode == false }}
     name: CI tests
     runs-on: ubuntu-latest
 
