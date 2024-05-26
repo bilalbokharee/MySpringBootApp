@@ -57,6 +57,7 @@ jobs:
           JAR_NAME: ${{ inputs.jar_name }}
           IMAGE_TAG: ${{ steps.commit.outputs.short }}
         run: |
+          ls -lh target
           docker build \
             --build-arg JAR_FILE=$JAR_PATH/$JAR_NAME \
             -t $ECR_REGISTRY/$ECR_REPO:$IMAGE_TAG .
