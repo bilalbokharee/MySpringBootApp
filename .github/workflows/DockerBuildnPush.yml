@@ -17,7 +17,6 @@ on:
 jobs:
   buildimagenpush:
     name: Build Docker Image
-    needs: buildjavaapp
     runs-on: ubuntu-latest
 
     steps:
