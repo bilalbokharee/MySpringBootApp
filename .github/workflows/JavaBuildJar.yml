@@ -1,0 +1,47 @@
+name: BuildJavaApp
+
+on:
+  workflow_call:
+
+    inputs:
+      jar_path:
+        description: Jar file path
+        required: true
+        type: string
+
+      java_version:
+        description: Name of ECR repo to push & pull image from
+        required: false
+        type: string
+        default: '22'
+
+      java_distribution:
+        description: EKS cluster name to deploy to.
+        required: false
+        type: string
+        default: 'temurin'
+
+jobs:
+
+  buildjavaapp:
+    name: Build Spring boot application
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: ${{ inputs.java_version }}
+          distribution: ${{ inputs.java_distribution }}
+
+      - name: Build JAR
+        run: |
+          mvn clean package -q
+
+      - name: Upload JAR
+        uses: actions/upload-artifact@v3
+        with:
+          path: ${{ inputs.jar_path }}

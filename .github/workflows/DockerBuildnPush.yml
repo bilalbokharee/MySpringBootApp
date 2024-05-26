@@ -1,0 +1,55 @@
+name: DockerBuildnPush
+
+on:
+  workflow_call:
+
+    inputs:
+      jar_path:
+        description: Jar file path
+        required: true
+        type: string
+
+      ecr_repo:
+        description: Name of ECR repo to push & pull image from
+        required: true
+        type: string
+
+jobs:
+  buildimagenpush:
+    name: Build Docker Image
+    needs: buildjavaapp
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set short git commit SHA
+        id: commit
+        uses: prompt/actions-commit-hash@v2
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.GH_ACTIONS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.GH_ACTIONS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.GH_ACTIONS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Download JAR
+        uses: actions/download-artifact@v3
+        with:
+          path: ${{ inputs.jar_path }}
+
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPO: ${{ inputs.ecr_repo }}
+          JAR_FILE: ${{ inputs.jar_path }}
+          IMAGE_TAG: ${{ steps.commit.outputs.short }}
+        run: |
+          docker build --build-arg JAR_FILE=$JAR_FILE -t $ECR_REGISTRY/$ECR_REPO:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPO:$IMAGE_TAG
