@@ -49,7 +49,7 @@ jobs:
           name: ${{ inputs.jar_name }}
           path: ${{ inputs.jar_path }}
 
-      - name: Build, tag, and push image to Amazon ECR
+      - name: Docker Build & tag
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPO: ${{ inputs.ecr_repo }}
@@ -60,4 +60,22 @@ jobs:
           docker build \
             --build-arg JAR_FILE=$JAR_PATH/$JAR_NAME \
             -t $ECR_REGISTRY/$ECR_REPO:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPO:$IMAGE_TAG
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Docker Build & tag
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPO: ${{ inputs.ecr_repo }}
+          IMAGE_TAG: ${{ steps.commit.outputs.short }}
+        run: |
           docker push $ECR_REGISTRY/$ECR_REPO:$IMAGE_TAG
